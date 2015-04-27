@@ -22,8 +22,12 @@ class FlattenServiceProvider extends ServiceProvider
 		$this->createStorageFolder();
 		$this->bindCoreClasses();
 
-		// Regisger package
-		$this->app['config']->package('anahkiasen/flatten', __DIR__.'/../config');
+		// Register package
+        $config = realpath(__DIR__.'/../config/config.php');
+        $this->publishes([
+            $config => config_path('anahkiasen/flatten.php'),
+        ]);
+        $this->mergeConfigFrom($config, 'anahkiasen/flatten');
 		$this->bindFlattenClasses();
 
 		if ($this->app->bound('artisan')) {
